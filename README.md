@@ -18,22 +18,49 @@ Sistema operativo personal de conocimiento, producción de contenido y marca.
 | `CLAUDE.md` | Contrato de trabajo para Claude Code |
 | `docs/BUILD.md` | **Instrucciones de construcción: qué hacer y en qué orden** |
 
-## Estado
+## Estado de construcción
 
-Núcleo implementado y esquema completo. La interfaz de los nueve módulos está
-por construir: esa es la tarea de Claude Code, guiada por `docs/MODULOS.md`.
+Núcleo implementado, esquema completo, y el **esqueleto de la app arranca**
+(`pnpm type`, `pnpm test` y `pnpm check` en verde). El módulo de **Decks** ya se
+puede ver y usar sin base de datos.
 
-## Arranque
+| Pieza | Estado |
+|---|---|
+| Esqueleto (rutas, shell, mapa de módulos, React Query) | ✅ hecho |
+| Decks · renderizador + export a PDF nativo | ✅ hecho y verificado (texto seleccionable) |
+| Decks · mirador del ejemplo (`/decks/ejemplo`) | ✅ sin base de datos |
+| Decks · editor de láminas (`/decks/taller`) | ✅ offline, guarda en el navegador |
+| E2 · `bootstrap_workspace` | ✅ código; falta aplicar en Supabase |
+| Persistencia real, imágenes, generativo, worker | ⏳ requieren Supabase / Docker |
+
+**Sin Docker en la máquina actual:** Supabase local (`supabase start`,
+`db:push`, `db:types`) y el worker Python no corren aquí. Todo lo que dependa de
+la base queda escrito y marcado como *pendiente de verificar con Supabase*.
+
+## Cómo correr la app localmente (sin base de datos)
 
 ```bash
 pnpm install
-cp apps/worker/.env.example apps/worker/.env   # completar
-supabase db push
-pnpm db:types
-pnpm test
+pnpm --filter @sistema/web dev
 ```
 
-Worker:
+Abre `http://localhost:3000`. Funcionan sin sesión ni base:
+
+- `/decks/ejemplo` — deck de ejemplo con selector de 4 temas
+- `/decks/taller` — editor de láminas (guarda en el navegador)
+
+Gates antes de cerrar cualquier tarea: `pnpm check && pnpm type && pnpm test`.
+
+## Cuando haya Supabase (local con Docker, o proyecto en la nube)
+
+```bash
+cp apps/worker/.env.example apps/worker/.env   # completar
+# apps/web/.env : VITE_SUPABASE_URL y VITE_SUPABASE_PUBLISHABLE_KEY
+supabase db push
+pnpm db:types
+```
+
+Worker (necesita Docker):
 
 ```bash
 cd apps/worker && docker compose up -d
