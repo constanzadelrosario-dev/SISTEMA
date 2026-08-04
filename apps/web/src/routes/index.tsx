@@ -7,7 +7,7 @@ import { enabledModules } from "@/modules/registry";
  * mandar algo. A medida que se habilitan módulos, se agregan acciones acá.
  */
 const ACCIONES = [
-  { label: "Armar un deck", to: "/decks/nuevo", module: "decks" },
+  { label: "Armar un deck", to: "/decks/taller", module: "decks" },
   { label: "Ver mis decks", to: "/decks", module: "decks" },
 ];
 

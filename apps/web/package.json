@@ -25,6 +25,7 @@
   "devDependencies": {
     "@tanstack/router-plugin": "^1.167.28",
     "@tailwindcss/vite": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.0",
     "tailwindcss": "^4.2.1",
     "vite": "^6.0.0",
     "vite-tsconfig-paths": "^6.0.2"
