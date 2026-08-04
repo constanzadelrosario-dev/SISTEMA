@@ -1,0 +1,32 @@
+{
+  "name": "@sistema/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --port 3000",
+    "build": "vite build",
+    "start": "node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "@sistema/core-agents": "workspace:*",
+    "@sistema/core-llm": "workspace:*",
+    "@sistema/db": "workspace:*",
+    "@sistema/deck": "workspace:*",
+    "@sistema/guardrails": "workspace:*",
+    "@supabase/supabase-js": "^2.107.0",
+    "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-router": "^1.168.25",
+    "@tanstack/react-start": "^1.167.50",
+    "lucide-react": "^0.383.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@tanstack/router-plugin": "^1.167.28",
+    "@tailwindcss/vite": "^4.2.1",
+    "tailwindcss": "^4.2.1",
+    "vite": "^6.0.0",
+    "vite-tsconfig-paths": "^6.0.2"
+  }
+}

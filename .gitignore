@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.turbo/
+*.tsbuildinfo
+
+# Entornos y secretos
+.env
+.env.*
+!.env.example
+venv/
+__pycache__/
+*.pyc
+
+# Datos y medios locales
+apps/worker/media/
+data/**
+outputs/**
+*.wav
+*.mp4
+*.mov
+
+.DS_Store
+.vscode/
+.idea/

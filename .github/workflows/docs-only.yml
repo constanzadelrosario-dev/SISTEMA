@@ -1,0 +1,31 @@
+# Par del CI: cuando un PR toca solo documentación, los checks requeridos
+# igual tienen que reportar en verde. Sin este archivo, un cambio en un .md
+# deja el PR bloqueado esperando un job que nunca se dispara.
+name: CI (docs-only)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.md'
+      - 'docs/**'
+      - '.claude/**'
+      - '.gitignore'
+      - 'LICENSE'
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Solo documentación; se omiten los tests."
+  build:
+    name: TypeScript & Build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Solo documentación; se omite typecheck y build."
+  worker:
+    name: Worker (sintaxis)
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Solo documentación."

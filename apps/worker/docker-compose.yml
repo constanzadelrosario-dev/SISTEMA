@@ -1,0 +1,10 @@
+services:
+  worker:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ${MEDIA_DIR:-./media}:/media:ro
+    environment:
+      WORKER_ID: "local-1"
+      MEDIA_ROOT: "/media"

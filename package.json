@@ -1,0 +1,31 @@
+{
+  "name": "sistema",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "type": "tsc --build",
+    "test": "vitest run",
+    "check": "biome check --write .",
+    "db:push": "supabase db push",
+    "db:types": "supabase gen types typescript --local > packages/db/src/types.gen.ts",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^2.1.0",
+    "@playwright/test": "^1.49.0",
+    "@testing-library/jest-dom": "^6.6.0",
+    "@testing-library/react": "^16.1.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "jsdom": "^25.0.0",
+    "vite-tsconfig-paths": "^6.0.2",
+    "playwright": "^1.49.0"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}

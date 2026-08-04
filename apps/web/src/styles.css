@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-line: oklch(0.92 0.004 90);
+  --color-soft: oklch(0.98 0.003 90);
+  --font-sans: Inter, system-ui, sans-serif;
+}
+
+/* El deck imprimible se sirve sin cromo: solo las láminas. */
+@media print {
+  @page { size: 1920px 1080px; margin: 0; }
+  html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+}

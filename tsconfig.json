@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@sistema/core-llm": ["packages/core-llm/src/index.ts"],
+      "@sistema/core-agents": ["packages/core-agents/src/index.ts"],
+      "@sistema/guardrails": ["packages/guardrails/src/index.ts"],
+      "@sistema/deck": ["packages/deck/src/index.ts"],
+      "@sistema/db": ["packages/db/src/index.ts"]
+    }
+  },
+  "include": ["packages/**/*.ts", "apps/web/src/**/*.ts", "apps/web/src/**/*.tsx"]
+}
