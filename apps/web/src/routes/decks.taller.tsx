@@ -57,7 +57,15 @@ function Taller() {
   }, []);
 
   const tema = PRESETS[preset]?.tokens ?? PRESETS[0].tokens;
+  const temaId = PRESETS[preset]?.id ?? PRESETS[0].id;
   const lamina = deck.slides[Math.min(sel, deck.slides.length - 1)];
+
+  function verImprimible() {
+    // Guarda antes de abrir: la imprimible lee el deck de localStorage.
+    localStorage.setItem(CLAVE, JSON.stringify(deck));
+    setGuardado(true);
+    window.open(`/decks/taller/print?tema=${temaId}`, "_blank", "noopener");
+  }
 
   function mut(next: DeckLocal) {
     setDeck(next);
@@ -139,6 +147,13 @@ function Taller() {
               className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-soft"
             >
               Restablecer
+            </button>
+            <button
+              type="button"
+              onClick={verImprimible}
+              className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-soft"
+            >
+              Ver imprimible / PDF
             </button>
             <button
               type="button"
