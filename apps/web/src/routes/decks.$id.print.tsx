@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { DeckPrint } from "@sistema/deck";
+import { createFileRoute } from "@tanstack/react-router";
 import { fnGetDeck } from "@/modules/decks/functions";
 
 /**

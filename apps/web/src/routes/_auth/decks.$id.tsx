@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { DeckThumb, DeckWeb } from "@sistema/deck";
+import { createFileRoute } from "@tanstack/react-router";
 import { fnGetDeck } from "@/modules/decks/functions";
 
 export const Route = createFileRoute("/_auth/decks/$id")({

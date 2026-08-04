@@ -1,5 +1,5 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
 import { PRESETS, TEMA_BASE, type ThemeTokens } from "@sistema/deck";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type ThemeRow = {
   id: string;
@@ -36,13 +36,15 @@ export async function saveThemes(
 ): Promise<ThemeRow[]> {
   const { data, error } = await sb
     .from("deck_themes")
-    .insert(themes.map((t) => ({
-      workspace_id: workspaceId,
-      name: t.name,
-      tokens: t.tokens,
-      origin: t.origin,
-      reference_id: t.referenceId ?? null,
-    })))
+    .insert(
+      themes.map((t) => ({
+        workspace_id: workspaceId,
+        name: t.name,
+        tokens: t.tokens,
+        origin: t.origin,
+        reference_id: t.referenceId ?? null,
+      })),
+    )
     .select("id,name,tokens,origin,is_favorite");
   if (error) throw error;
   return (data ?? []) as ThemeRow[];

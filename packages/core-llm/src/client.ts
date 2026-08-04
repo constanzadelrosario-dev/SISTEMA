@@ -1,6 +1,10 @@
-import { z, type ZodType } from "zod";
+import { type ZodType, z } from "zod";
 import {
-  LlmCreditsError, LlmError, LlmRateLimitError, LlmSchemaError, LlmTimeoutError,
+  LlmCreditsError,
+  LlmError,
+  LlmRateLimitError,
+  LlmSchemaError,
+  LlmTimeoutError,
 } from "./errors";
 import { defaultProvider, modelFor } from "./policy";
 import type { LlmOptions, LlmResult, Message, Provider } from "./types";
@@ -21,7 +25,10 @@ const cache = new Map<string, LlmResult>();
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function buildBody(provider: Provider, model: string, messages: Message[], o: LlmOptions) {
-  const system = messages.filter((m) => m.role === "system").map((m) => m.content).join("\n\n");
+  const system = messages
+    .filter((m) => m.role === "system")
+    .map((m) => m.content)
+    .join("\n\n");
   const rest = messages.filter((m) => m.role !== "system");
   if (provider === "anthropic") {
     return {
@@ -44,7 +51,11 @@ function readText(provider: Provider, data: unknown): string {
   const d = data as Record<string, unknown>;
   if (provider === "anthropic") {
     const blocks = (d.content ?? []) as Array<{ type: string; text?: string }>;
-    return blocks.filter((b) => b.type === "text").map((b) => b.text ?? "").join("\n").trim();
+    return blocks
+      .filter((b) => b.type === "text")
+      .map((b) => b.text ?? "")
+      .join("\n")
+      .trim();
   }
   const choices = (d.choices ?? []) as Array<{ message?: { content?: string } }>;
   return (choices[0]?.message?.content ?? "").trim();
@@ -74,7 +85,11 @@ export async function callLlm(messages: Message[], opts: LlmOptions = {}): Promi
         signal: ctrl.signal,
         headers:
           provider === "anthropic"
-            ? { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" }
+            ? {
+                "content-type": "application/json",
+                "x-api-key": key,
+                "anthropic-version": "2023-06-01",
+              }
             : { "content-type": "application/json", authorization: `Bearer ${key}` },
         body: JSON.stringify(buildBody(provider, model, messages, opts)),
       });
@@ -82,7 +97,11 @@ export async function callLlm(messages: Message[], opts: LlmOptions = {}): Promi
 
       if (res.status === 429) throw new LlmRateLimitError("Límite de uso alcanzado", 429);
       if (res.status === 402) throw new LlmCreditsError("Sin créditos en el proveedor", 402);
-      if (!res.ok) throw new LlmError(`${provider} ${res.status}: ${(await res.text()).slice(0, 200)}`, res.status);
+      if (!res.ok)
+        throw new LlmError(
+          `${provider} ${res.status}: ${(await res.text()).slice(0, 200)}`,
+          res.status,
+        );
 
       const data = await res.json();
       const usage = (data.usage ?? {}) as Record<string, number>;
@@ -131,7 +150,9 @@ export async function callLlmJson<T>(
   }
   const check = schema.safeParse(parsed);
   if (!check.success) {
-    throw new LlmSchemaError(`Salida no valida contra el esquema: ${check.error.message.slice(0, 200)}`);
+    throw new LlmSchemaError(
+      `Salida no valida contra el esquema: ${check.error.message.slice(0, 200)}`,
+    );
   }
   const { text: _t, ...meta } = r;
   return { data: check.data, ...meta };

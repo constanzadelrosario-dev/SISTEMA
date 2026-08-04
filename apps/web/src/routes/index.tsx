@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { enabledModules } from "@/modules/registry";
 
 /**
@@ -28,9 +28,7 @@ export const Route = createFileRoute("/")({
             </Link>
           ))}
         </div>
-        <p className="mt-8 text-neutral-500 text-sm">
-          {activos.size} de 9 módulos construidos.
-        </p>
+        <p className="mt-8 text-neutral-500 text-sm">{activos.size} de 9 módulos construidos.</p>
       </div>
     );
   },

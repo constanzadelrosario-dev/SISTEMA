@@ -1,10 +1,10 @@
 import { createMiddleware } from "@tanstack/react-start";
-import { getWebRequest } from "@tanstack/react-start/server";
+import { getRequest } from "@tanstack/react-start/server";
 import { serverClient } from "./server";
 
 /** Exige sesión y expone { userId, workspaceId, sb } al handler. */
-export const requireAuth = createMiddleware().server(async ({ next }) => {
-  const req = getWebRequest();
+export const requireAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
+  const req = getRequest();
   const token = req?.headers.get("authorization")?.replace("Bearer ", "");
   const sb = serverClient(token);
   const { data, error } = await sb.auth.getUser();

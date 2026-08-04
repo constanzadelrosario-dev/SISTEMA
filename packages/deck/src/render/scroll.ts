@@ -37,12 +37,17 @@ export function useDeckScroll(enabled = true): void {
       // nada que fuerce reflow durante el scroll.
       const revealables = gsap.utils.toArray<HTMLElement>("[data-reveal]");
       for (const el of revealables) {
-        gsap.fromTo(el,
+        gsap.fromTo(
+          el,
           { opacity: 0, y: 24 },
           {
-            opacity: 1, y: 0, duration: 0.7, ease: "power2.out",
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 80%", once: true },
-          });
+          },
+        );
       }
 
       // Las fuentes reflowean el texto después del primer cálculo.

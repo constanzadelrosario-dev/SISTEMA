@@ -32,7 +32,9 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="grid min-h-screen grid-cols-[200px_1fr] bg-soft">
       <nav className="border-line border-r p-3">
-        <Link to="/" className="mb-4 block px-2 font-medium text-sm">Sistema</Link>
+        <Link to="/" className="mb-4 block px-2 font-medium text-sm">
+          Sistema
+        </Link>
         {groups.map((g) => (
           <div key={g} className="mb-3">
             <div className="px-2 pb-1 text-[11px] text-neutral-400 uppercase tracking-wider">

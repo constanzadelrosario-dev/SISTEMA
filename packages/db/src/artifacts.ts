@@ -1,5 +1,5 @@
-import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Deck } from "@sistema/deck";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 /**
  * Capa de acceso. Ningún módulo consulta tablas directamente: si el esquema
@@ -13,7 +13,7 @@ export type ArtifactRow = {
   title: string | null;
   status: string;
   current_version: number;
-  payload: unknown;
+  payload: Deck;
   updated_at: string;
 };
 
@@ -28,7 +28,10 @@ export async function listDecks(sb: SupabaseClient, workspaceId: string): Promis
   return data ?? [];
 }
 
-export async function getDeck(sb: SupabaseClient, id: string): Promise<{ row: ArtifactRow; deck: Deck }> {
+export async function getDeck(
+  sb: SupabaseClient,
+  id: string,
+): Promise<{ row: ArtifactRow; deck: Deck }> {
   const { data, error } = await sb
     .from("artifacts")
     .select("id,kind,subtype,title,status,current_version,payload,updated_at")
@@ -75,7 +78,10 @@ export async function saveDeckVersion(
   meta: { contextSource?: string; guardrailProfile?: string; checks?: unknown } = {},
 ): Promise<number> {
   const { data: art, error: e1 } = await sb
-    .from("artifacts").select("current_version").eq("id", artifactId).single();
+    .from("artifacts")
+    .select("current_version")
+    .eq("id", artifactId)
+    .single();
   if (e1) throw e1;
 
   const version = (art.current_version as number) + 1;

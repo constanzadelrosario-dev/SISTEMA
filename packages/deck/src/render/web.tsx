@@ -20,7 +20,14 @@ function Progress({ t }: { t: ThemeTokens }) {
   }, []);
   return (
     <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: "2px", zIndex: 50 }}>
-      <div style={{ width: `${pct}%`, height: "100%", background: t.palette.accent, transition: "width 120ms linear" }} />
+      <div
+        style={{
+          width: `${pct}%`,
+          height: "100%",
+          background: t.palette.accent,
+          transition: "width 120ms linear",
+        }}
+      />
     </div>
   );
 }
@@ -44,7 +51,16 @@ function Rail({ count, t }: { count: number; t: ThemeTokens }) {
   return (
     <nav
       aria-label="Láminas"
-      style={{ position: "fixed", right: "16px", top: "50%", transform: "translateY(-50%)", zIndex: 50, display: "flex", flexDirection: "column", gap: "2px" }}
+      style={{
+        position: "fixed",
+        right: "16px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 50,
+        display: "flex",
+        flexDirection: "column",
+        gap: "2px",
+      }}
     >
       {Array.from({ length: count }, (_, i) => (
         <a
@@ -54,11 +70,16 @@ function Rail({ count, t }: { count: number; t: ThemeTokens }) {
           aria-current={i === active ? "true" : undefined}
           style={{ width: "44px", height: "22px", display: "grid", placeItems: "center" }}
         >
-          <span style={{
-            display: "block", width: i === active ? "18px" : "8px", height: "2px",
-            background: t.palette.accent, opacity: i === active ? 1 : 0.35,
-            transition: "width 200ms ease, opacity 200ms ease",
-          }} />
+          <span
+            style={{
+              display: "block",
+              width: i === active ? "18px" : "8px",
+              height: "2px",
+              background: t.palette.accent,
+              opacity: i === active ? 1 : 0.35,
+              transition: "width 200ms ease, opacity 200ms ease",
+            }}
+          />
         </a>
       ))}
     </nav>
@@ -71,9 +92,17 @@ function Rail({ count, t }: { count: number; t: ThemeTokens }) {
  * un tamaño legible en pantalla, sin tocar el objeto Deck.
  */
 export function DeckWeb({
-  deck, theme, scale = 0.5, motion = true, chrome = true,
+  deck,
+  theme,
+  scale = 0.5,
+  motion = true,
+  chrome = true,
 }: {
-  deck: Deck; theme: ThemeTokens; scale?: number; motion?: boolean; chrome?: boolean;
+  deck: Deck;
+  theme: ThemeTokens;
+  scale?: number;
+  motion?: boolean;
+  chrome?: boolean;
 }) {
   useDeckScroll(motion);
 
@@ -98,11 +127,26 @@ export function DeckWeb({
 }
 
 /** Miniatura para el editor y el selector de temas. */
-export function DeckThumb({ deck, theme, index = 0 }: { deck: Deck; theme: ThemeTokens; index?: number }) {
+export function DeckThumb({
+  deck,
+  theme,
+  index = 0,
+}: {
+  deck: Deck;
+  theme: ThemeTokens;
+  index?: number;
+}) {
   const slide = deck.slides[index];
   if (!slide) return null;
   return (
-    <div style={{ aspectRatio: "16/9", background: theme.palette.bg, overflow: "hidden", position: "relative" }}>
+    <div
+      style={{
+        aspectRatio: "16/9",
+        background: theme.palette.bg,
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
       <Ornaments t={theme} scale={0.13} />
       <SlideBody slide={slide} t={theme} scale={0.13} />
     </div>

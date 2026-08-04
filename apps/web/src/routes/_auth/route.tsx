@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { Shell } from "@/components/Shell";
 import { supabase } from "@/lib/supabase/client";
 

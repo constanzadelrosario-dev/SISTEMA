@@ -1,11 +1,26 @@
 import { describe, expect, it } from "vitest";
-import { chequeoCoherencia, chequeoLimites, chequeoValidacion, chequeoVerbatim } from "../src/checks-duros";
+import {
+  chequeoCoherencia,
+  chequeoLimites,
+  chequeoValidacion,
+  chequeoVerbatim,
+} from "../src/checks-duros";
 import type { BrainSlice, GuardContext } from "../src/types";
 
 const brain = (over: Partial<BrainSlice> = {}): BrainSlice => ({
-  facts: [], voice: [], citations: [], gaps: [], commitments: [], limits: [], ...over,
+  facts: [],
+  voice: [],
+  citations: [],
+  gaps: [],
+  commitments: [],
+  limits: [],
+  ...over,
 });
-const ctx = (b: BrainSlice): GuardContext => ({ brain: b, domain: "salud_mental", speaker: "principal" });
+const ctx = (b: BrainSlice): GuardContext => ({
+  brain: b,
+  domain: "salud_mental",
+  speaker: "principal",
+});
 
 describe("validación", () => {
   it("bloquea lenguaje de eficacia si el instrumento no está en verde", () => {
@@ -22,7 +37,9 @@ describe("validación", () => {
   });
 
   it("permite el lenguaje cuando el hecho está en verde", () => {
-    const b = brain({ facts: [{ id: "1", key: "instrumento.validacion", value: "sí", status: "verde" }] });
+    const b = brain({
+      facts: [{ id: "1", key: "instrumento.validacion", value: "sí", status: "verde" }],
+    });
     expect(chequeoValidacion("Instrumento validado.", ctx(b)).passed).toBe(true);
   });
 });
@@ -34,12 +51,17 @@ describe("verbatim", () => {
   });
 
   it("acepta la cita que sí existe", () => {
-    const b = brain({ voice: [{ id: "v1", speaker: "principal", text: "nadie las estaba escuchando" }] });
+    const b = brain({
+      voice: [{ id: "v1", speaker: "principal", text: "nadie las estaba escuchando" }],
+    });
     expect(chequeoVerbatim('Dije: "nadie las estaba escuchando".', ctx(b)).passed).toBe(true);
   });
 
   it("REGRESIÓN: una cita atribuida a un tercero no se marca como inventada", () => {
-    const r = chequeoVerbatim('Según Kahneman, "pensamos más rápido de lo que creemos".', ctx(brain()));
+    const r = chequeoVerbatim(
+      'Según Kahneman, "pensamos más rápido de lo que creemos".',
+      ctx(brain()),
+    );
     expect(r.passed).toBe(true);
     expect(r.severity).toBe("advertencia");
   });

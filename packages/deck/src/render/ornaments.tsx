@@ -15,7 +15,11 @@ export function Ornaments({ t, scale = 1 }: { t: ThemeTokens; scale?: number }) 
   const len = Math.round((o.corners === "marco" ? 180 : 96) * scale);
   const inset = Math.round(48 * scale);
   const w = Math.max(1, Math.round(scale));
-  const line: React.CSSProperties = { position: "absolute", background: t.palette.accent, opacity: o.opacity };
+  const line: React.CSSProperties = {
+    position: "absolute",
+    background: t.palette.accent,
+    opacity: o.opacity,
+  };
 
   return (
     <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>

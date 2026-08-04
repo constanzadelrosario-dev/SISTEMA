@@ -26,7 +26,11 @@ export const Route = createFileRoute("/login")({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button type="button" onClick={send} className="border-line rounded-md border px-3 py-2 text-sm">
+            <button
+              type="button"
+              onClick={send}
+              className="border-line rounded-md border px-3 py-2 text-sm"
+            >
               Enviar enlace
             </button>
           </>

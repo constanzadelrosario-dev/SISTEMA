@@ -1,23 +1,52 @@
-import { chequeoCoherencia, chequeoLimites, chequeoValidacion, chequeoVerbatim } from "./checks-duros";
+import {
+  chequeoCoherencia,
+  chequeoLimites,
+  chequeoValidacion,
+  chequeoVerbatim,
+} from "./checks-duros";
 import { chequeoCompliance, chequeoCrisis, chequeoPersuasion } from "./checks-modelo";
-import type { CheckId, CheckResult, GuardContext, GuardVerdict, GuardrailProfile } from "./types";
+import type { CheckId, CheckResult, GuardContext, GuardrailProfile, GuardVerdict } from "./types";
 
 export const PERFIL_CLINICO: GuardrailProfile = {
-  id: "clinico", name: "Clínico",
-  checks: { validacion: "bloqueante", verbatim: "bloqueante", coherencia: "advertencia",
-            limites: "advertencia", persuasion: "advertencia", crisis: "bloqueante", compliance: "off" },
+  id: "clinico",
+  name: "Clínico",
+  checks: {
+    validacion: "bloqueante",
+    verbatim: "bloqueante",
+    coherencia: "advertencia",
+    limites: "advertencia",
+    persuasion: "advertencia",
+    crisis: "bloqueante",
+    compliance: "off",
+  },
 };
 
 export const PERFIL_ARRANQUE: GuardrailProfile = {
-  id: "arranque", name: "Arranque",
-  checks: { validacion: "advertencia", verbatim: "off", coherencia: "off",
-            limites: "advertencia", persuasion: "off", crisis: "bloqueante", compliance: "off" },
+  id: "arranque",
+  name: "Arranque",
+  checks: {
+    validacion: "advertencia",
+    verbatim: "off",
+    coherencia: "off",
+    limites: "advertencia",
+    persuasion: "off",
+    crisis: "bloqueante",
+    compliance: "off",
+  },
 };
 
 export const PERFIL_LIBRE: GuardrailProfile = {
-  id: "libre", name: "Libre",
-  checks: { validacion: "off", verbatim: "off", coherencia: "off",
-            limites: "off", persuasion: "off", crisis: "off", compliance: "off" },
+  id: "libre",
+  name: "Libre",
+  checks: {
+    validacion: "off",
+    verbatim: "off",
+    coherencia: "off",
+    limites: "off",
+    persuasion: "off",
+    crisis: "off",
+    compliance: "off",
+  },
 };
 
 const DUROS: CheckId[] = ["validacion", "verbatim", "coherencia", "limites"];
@@ -40,9 +69,9 @@ export async function runChecks(
   const results: CheckResult[] = [];
 
   if (activo("validacion")) results.push(aplicar(chequeoValidacion(texto, ctx)));
-  if (activo("verbatim"))   results.push(aplicar(chequeoVerbatim(texto, ctx)));
+  if (activo("verbatim")) results.push(aplicar(chequeoVerbatim(texto, ctx)));
   if (activo("coherencia")) results.push(aplicar(chequeoCoherencia(texto, ctx)));
-  if (activo("limites"))    results.push(aplicar(chequeoLimites(texto, ctx)));
+  if (activo("limites")) results.push(aplicar(chequeoLimites(texto, ctx)));
 
   const duroBloqueado = results.some(
     (r) => !r.passed && r.severity === "bloqueante" && DUROS.includes(r.id),
@@ -60,7 +89,10 @@ export async function runChecks(
   const blocked = results.some((r) => !r.passed && r.severity === "bloqueante");
   const observations = results
     .filter((r) => !r.passed)
-    .map((r) => `[${r.id}] ${r.detail}${r.suggestions?.length ? ` Sugerencias: ${r.suggestions.join(" ")}` : ""}`);
+    .map(
+      (r) =>
+        `[${r.id}] ${r.detail}${r.suggestions?.length ? ` Sugerencias: ${r.suggestions.join(" ")}` : ""}`,
+    );
 
   return { results, blocked, observations };
 }

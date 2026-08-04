@@ -1,5 +1,5 @@
-import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { fnCreateDeck, fnListDecks } from "@/modules/decks/functions";
 
 export const Route = createFileRoute("/_auth/decks")({
@@ -23,7 +23,11 @@ export const Route = createFileRoute("/_auth/decks")({
             <h1 className="font-medium text-lg">Decks</h1>
             <p className="text-neutral-500 text-sm">Presentaciones y propuestas</p>
           </div>
-          <button type="button" onClick={nuevo} className="border-line rounded-md border px-3 py-1.5 text-sm hover:bg-soft">
+          <button
+            type="button"
+            onClick={nuevo}
+            className="border-line rounded-md border px-3 py-1.5 text-sm hover:bg-soft"
+          >
             Nuevo deck
           </button>
         </div>

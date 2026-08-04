@@ -3,6 +3,13 @@ dist/
 .turbo/
 *.tsbuildinfo
 
+# Generado por el plugin de TanStack Router (no editar a mano)
+apps/web/src/routeTree.gen.ts
+# Salida de build de TanStack Start
+apps/web/.output/
+apps/web/.nitro/
+apps/web/.tanstack/
+
 # Entornos y secretos
 .env
 .env.*

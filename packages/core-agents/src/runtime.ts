@@ -1,5 +1,5 @@
 import { callLlmJson } from "@sistema/core-llm";
-import { runChecks, type GuardContext, type GuardrailProfile } from "@sistema/guardrails";
+import { type GuardContext, type GuardrailProfile, runChecks } from "@sistema/guardrails";
 import { emptyBrain, mergeBrain, renderBrain, sliceBrain } from "./brain";
 import type { AgentDef, AgentInput, AgentOutput } from "./types";
 
@@ -43,7 +43,7 @@ export async function runAgent<B, T>(
 
   const guardCtx: GuardContext = {
     brain,
-    domain: (brief as Record<string, unknown>).domain as GuardContext["domain"] ?? "general",
+    domain: ((brief as Record<string, unknown>).domain as GuardContext["domain"]) ?? "general",
   };
 
   const system = agent.system({ ...input, brief });
@@ -58,9 +58,12 @@ export async function runAgent<B, T>(
   for (let intento = 0; intento < 2; intento++) {
     const messages = [
       { role: "system" as const, content: system },
-      { role: "user" as const, content:
-        `${contexto}\n\nBRIEF:\n${JSON.stringify(brief, null, 2)}` +
-        (observaciones ? `\n\nCORRIGE ESTO DE TU INTENTO ANTERIOR:\n${observaciones}` : "") },
+      {
+        role: "user" as const,
+        content:
+          `${contexto}\n\nBRIEF:\n${JSON.stringify(brief, null, 2)}` +
+          (observaciones ? `\n\nCORRIGE ESTO DE TU INTENTO ANTERIOR:\n${observaciones}` : ""),
+      },
     ];
 
     const res = await callLlmJson(messages, agent.outputSchema, {

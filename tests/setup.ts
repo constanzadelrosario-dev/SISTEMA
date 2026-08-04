@@ -3,9 +3,14 @@ import "@testing-library/jest-dom/vitest";
 // El render web pide movimiento reducido y observadores que jsdom no trae.
 if (!window.matchMedia) {
   window.matchMedia = ((q: string) => ({
-    matches: false, media: q, onchange: null,
-    addEventListener: () => {}, removeEventListener: () => {},
-    addListener: () => {}, removeListener: () => {}, dispatchEvent: () => false,
+    matches: false,
+    media: q,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false,
   })) as typeof window.matchMedia;
 }
 if (!("IntersectionObserver" in window)) {

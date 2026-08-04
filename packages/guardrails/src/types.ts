@@ -1,6 +1,11 @@
 export type CheckId =
-  | "validacion" | "verbatim" | "coherencia" | "limites"   // duros
-  | "persuasion" | "crisis" | "compliance";                 // asistidos por modelo
+  | "validacion"
+  | "verbatim"
+  | "coherencia"
+  | "limites" // duros
+  | "persuasion"
+  | "crisis"
+  | "compliance"; // asistidos por modelo
 
 export type Severity = "bloqueante" | "advertencia" | "off";
 
@@ -16,7 +21,12 @@ export type CheckResult = {
 };
 
 export type BrainSlice = {
-  facts: Array<{ id: string; key: string; value: string | null; status: "verde" | "amarillo" | "rojo" }>;
+  facts: Array<{
+    id: string;
+    key: string;
+    value: string | null;
+    status: "verde" | "amarillo" | "rojo";
+  }>;
   voice: Array<{ id: string; text: string; speaker: string }>;
   citations: Array<{ id: string; text: string; attribution: string }>;
   gaps: Array<{ field: string; priority: number }>;
@@ -39,5 +49,5 @@ export type GuardrailProfile = {
 export type GuardVerdict = {
   results: CheckResult[];
   blocked: boolean;
-  observations: string[];   // se pasan al modelo en el reintento
+  observations: string[]; // se pasan al modelo en el reintento
 };

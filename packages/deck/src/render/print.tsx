@@ -27,11 +27,19 @@ export function DeckPrint({ deck, theme }: { deck: Deck; theme: ThemeTokens }) {
         >
           <Ornaments t={theme} scale={1} />
           <SlideBody slide={slide} t={theme} scale={1} />
-          <div style={{
-            position: "absolute", bottom: "40px", left: 0, right: 0, textAlign: "center",
-            fontFamily: theme.fonts.ui, fontSize: "13px", color: theme.palette.muted,
-            letterSpacing: "0.2em",
-          }}>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "40px",
+              left: 0,
+              right: 0,
+              textAlign: "center",
+              fontFamily: theme.fonts.ui,
+              fontSize: "13px",
+              color: theme.palette.muted,
+              letterSpacing: "0.2em",
+            }}
+          >
             {String(i + 1).padStart(2, "0")} / {String(deck.slides.length).padStart(2, "0")}
           </div>
         </section>

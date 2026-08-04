@@ -101,10 +101,14 @@ export const TEMA_CALIDO_CLINICO: ThemeTokens = {
 };
 
 export const PRESETS = [
-  { id: "editorial-oscuro",     name: "Editorial oscuro",     tokens: TEMA_EDITORIAL_OSCURO },
-  { id: "editorial-contrastado", name: "Editorial contrastado", tokens: TEMA_EDITORIAL_CONTRASTADO },
-  { id: "contrastado-noche",    name: "Contrastado noche",    tokens: TEMA_CONTRASTADO_NOCHE },
-  { id: "calido-clinico",       name: "Cálido clínico",       tokens: TEMA_CALIDO_CLINICO },
+  { id: "editorial-oscuro", name: "Editorial oscuro", tokens: TEMA_EDITORIAL_OSCURO },
+  {
+    id: "editorial-contrastado",
+    name: "Editorial contrastado",
+    tokens: TEMA_EDITORIAL_CONTRASTADO,
+  },
+  { id: "contrastado-noche", name: "Contrastado noche", tokens: TEMA_CONTRASTADO_NOCHE },
+  { id: "calido-clinico", name: "Cálido clínico", tokens: TEMA_CALIDO_CLINICO },
 ] as const;
 
 /** Fuentes que hay que cargar. Todas de licencia abierta. */

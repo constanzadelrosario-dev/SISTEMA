@@ -1,5 +1,5 @@
 import type { GuardrailProfile } from "@sistema/guardrails";
-import { getAgent, runAgent, type RuntimeHooks } from "./runtime";
+import { getAgent, type RuntimeHooks, runAgent } from "./runtime";
 import type { AgentInput } from "./types";
 
 export type PipelineStep = {
@@ -32,9 +32,17 @@ export async function runPipeline(
   const stages: PipelineResult["stages"] = {};
   for (const step of p.steps) {
     const agent = getAgent(step.agentId);
-    if (!agent) { stages[step.agentId] = { ok: false, error: "agente no registrado" }; continue; }
+    if (!agent) {
+      stages[step.agentId] = { ok: false, error: "agente no registrado" };
+      continue;
+    }
     try {
-      const out = await runAgent(agent, { ...ctx.base, brief: step.briefFrom(ctx) }, profile, hooks);
+      const out = await runAgent(
+        agent,
+        { ...ctx.base, brief: step.briefFrom(ctx) },
+        profile,
+        hooks,
+      );
       ctx.outputs[step.agentId] = out.data;
       stages[step.agentId] = { ok: true };
     } catch (err) {
