@@ -1,6 +1,6 @@
-import { DeckThumb, DeckWeb, PRESETS, type Slide } from "@sistema/deck";
+import { Deck, DeckThumb, DeckWeb, PRESETS, type Slide } from "@sistema/deck";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Shell } from "@/components/Shell";
 import { EJEMPLO_LAYOUT, LAYOUTS, type LayoutName, nuevaLamina } from "@/modules/decks/ejemplos";
 import { SchemaForm, schemaParaLayout } from "@/modules/decks/SchemaForm";
@@ -48,6 +48,7 @@ function Taller() {
   const [guardado, setGuardado] = useState(true);
   const [verCompleto, setVerCompleto] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   // Carga desde el navegador tras montar (evita desajuste de hidratación).
   useEffect(() => {
@@ -76,6 +77,51 @@ function Taller() {
     localStorage.setItem(CLAVE, JSON.stringify(deck));
     setGuardado(true);
     window.open(`/decks/taller/print?tema=${temaId}`, "_blank", "noopener");
+  }
+
+  function slug(s: string): string {
+    return (
+      s
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") || "deck"
+    );
+  }
+
+  /** Descarga el deck como archivo .json, para respaldarlo o moverlo. */
+  function descargarDeck() {
+    const blob = new Blob([JSON.stringify(deck, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${slug(deck.meta.title)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  /** Carga un deck desde un .json, validándolo contra el esquema. */
+  function cargarDeck(file: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = Deck.safeParse(JSON.parse(String(reader.result)));
+        if (!parsed.success) {
+          alert("El archivo no es un deck válido.");
+          return;
+        }
+        const d = parsed.data;
+        mut({
+          meta: { title: d.meta.title, lang: "es", aspect: "16:9", confidential: true },
+          slides: d.slides,
+        });
+        setSel(0);
+      } catch {
+        alert("No se pudo leer el archivo.");
+      }
+    };
+    reader.readAsText(file);
   }
 
   function mut(next: DeckLocal) {
@@ -152,6 +198,33 @@ function Taller() {
             <span className={`text-xs ${guardado ? "text-neutral-400" : "text-amber-600"}`}>
               {guardado ? "Guardado" : "Sin guardar"}
             </span>
+            <input
+              ref={fileRef}
+              type="file"
+              accept="application/json,.json"
+              className="hidden"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) cargarDeck(f);
+                e.target.value = "";
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-soft"
+              title="Cargar un deck desde un archivo .json"
+            >
+              Cargar
+            </button>
+            <button
+              type="button"
+              onClick={descargarDeck}
+              className="rounded-md border border-line px-3 py-1.5 text-sm hover:bg-soft"
+              title="Descargar este deck como archivo .json"
+            >
+              Descargar
+            </button>
             <button
               type="button"
               onClick={restablecer}
