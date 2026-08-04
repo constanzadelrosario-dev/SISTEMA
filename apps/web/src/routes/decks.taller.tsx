@@ -17,6 +17,7 @@ export const Route = createFileRoute("/decks/taller")({
 });
 
 const CLAVE = "sistema.deck.taller";
+const CLAVE_TEMA = "sistema.deck.taller.tema";
 
 type DeckLocal = {
   meta: { title: string; lang: "es"; aspect: "16:9"; confidential: boolean };
@@ -53,12 +54,22 @@ function Taller() {
     try {
       const raw = localStorage.getItem(CLAVE);
       if (raw) setDeck(JSON.parse(raw));
+      const t = localStorage.getItem(CLAVE_TEMA);
+      const i = PRESETS.findIndex((p) => p.id === t);
+      if (i >= 0) setPreset(i);
     } catch {}
   }, []);
 
   const tema = PRESETS[preset]?.tokens ?? PRESETS[0].tokens;
   const temaId = PRESETS[preset]?.id ?? PRESETS[0].id;
   const lamina = deck.slides[Math.min(sel, deck.slides.length - 1)];
+
+  function elegirTema(i: number) {
+    setPreset(i);
+    try {
+      localStorage.setItem(CLAVE_TEMA, PRESETS[i]?.id ?? PRESETS[0].id);
+    } catch {}
+  }
 
   function verImprimible() {
     // Guarda antes de abrir: la imprimible lee el deck de localStorage.
@@ -171,7 +182,7 @@ function Taller() {
             <button
               key={p.id}
               type="button"
-              onClick={() => setPreset(i)}
+              onClick={() => elegirTema(i)}
               className={`rounded-md border px-2.5 py-1 text-xs ${
                 i === preset
                   ? "border-neutral-900 bg-neutral-900 text-white"
