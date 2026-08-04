@@ -33,6 +33,12 @@ export const Route = createFileRoute("/")({
           >
             Ver el deck de ejemplo <span className="text-neutral-400">· sin conexión</span>
           </Link>
+          <Link
+            to="/decks/catalogo"
+            className="border-line rounded-lg border border-dashed px-4 py-3 text-neutral-600 text-sm hover:bg-soft"
+          >
+            Ver el catálogo de diseños <span className="text-neutral-400">· 14 layouts</span>
+          </Link>
         </div>
         <p className="mt-8 text-neutral-500 text-sm">{activos.size} de 9 módulos construidos.</p>
       </div>

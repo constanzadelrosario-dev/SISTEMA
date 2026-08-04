@@ -151,3 +151,14 @@ export const EJEMPLO_LAYOUT: Record<LayoutName, Slide> = {
 
 /** Devuelve una copia fresca del ejemplo de un layout (para agregar láminas). */
 export const nuevaLamina = (layout: LayoutName): Slide => structuredClone(EJEMPLO_LAYOUT[layout]);
+
+/** Deck con los 14 layouts, en orden. Para el catálogo y el chequeo de desborde. */
+export const DECK_CATALOGO = {
+  meta: {
+    title: "Catálogo de layouts",
+    lang: "es" as const,
+    aspect: "16:9" as const,
+    confidential: true,
+  },
+  slides: LAYOUTS.map((l) => structuredClone(EJEMPLO_LAYOUT[l])),
+};
